@@ -173,8 +173,28 @@ SELECT *
 FROM employee
 WHERE first_name IN ('Jim', 'Michael', 'Johnny', 'David');
 
+SELECT COUNT(super_id)
+FROM employee;
 
+SELECT COUNT(emp_id)
+FROM employee
+WHERE sex = "F" AND birth_day > "1970-01-01";
 
+SELECT AVG(salary)
+FROM employee;
+
+SELECT sex, COUNT(sex)
+FROM employee
+GROUP BY sex;
+
+-- aggregation usage
+SELECT emp_id, SUM(total_sales)
+FROM works_with
+GROUP BY emp_id;
+
+SELECT SUM(total_sales), client_id
+FROM works_with
+GROUP BY client_id;
 
 
 
