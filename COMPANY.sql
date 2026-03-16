@@ -196,6 +196,12 @@ SELECT SUM(total_sales), client_id
 FROM works_with
 GROUP BY client_id;
 
+-- wildcards and like key word % stands for any charcters , _ stands for one character
+-- find a clients wh are LLC
+
+SELECT *
+FROM client
+WHERE client_name LIKE '%LLC';
 
 
 
