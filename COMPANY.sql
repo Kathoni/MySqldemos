@@ -203,6 +203,44 @@ SELECT *
 FROM client
 WHERE client_name LIKE '%LLC';
 
+-- Find any branch suppliers who are in the label business
+SELECT *
+FROM branch_supplier
+WHERE supplier_name LIKE '% Label%';
+
+-- Find any employee born on the 10th day of the month
+SELECT *
+FROM employee
+WHERE birth_day LIKE '_____10%';
+
+SELECT *
+FROM employee
+WHERE birth_day LIKE '_____02%';
+
+-- Find any clients who are schools
+SELECT *
+FROM client
+WHERE client_name LIKE '%Highschool%';
 
 
+-- Union usage
+SELECT first_name
+FROM employee
+UNION
+SELECT branch_name
+FROM branch;
+
+-- Find a list of all clients & branch suppliers' names
+SELECT client_name , client.branch_id
+FROM client
+UNION
+SELECT supplier_name, branch_supplier.branch_id 
+FROM branch_supplier;
+
+-- Find list of all money spent or earned by a company
+SELECT total_sales
+FROM works_with
+UNION
+SELECT salary
+FROM employee;
 
