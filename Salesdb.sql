@@ -77,5 +77,71 @@ INSERT INTO contractors VALUES
 (301, 'Sarah', 'IT', 50000),
 (302, 'Tom', 'Sales', 40000);
 
+SELECT * FROM contractors;
+SELECT * FROM customers ;
+SELECT * FROM employees ;
+SELECT * FROM orders;
+SELECT * FROM products ;
 
+-- Using JOIN 
+SELECT  customers.customer_id ,customers.name , customers.country
+FROM customers
+JOIN orders
+ON customers.customer_id = orders.customer_id;
+
+SELECT  customers.customer_id ,customers.name , customers.country, SUM(orders.amount) AS total_spent
+FROM customers
+JOIN orders
+ON customers.customer_id = orders.customer_id
+GROUP BY customers.customer_id, customers.name;
+
+
+SELECT  customers.customer_id ,customers.name , customers.country
+FROM customers
+RIGHT JOIN orders
+ON customers.customer_id = orders.customer_id;
+
+SELECT orders.order_id , orders.order_date
+FROM orders
+LEFT JOIN customers
+ON customers.customer_id = orders.customer_id;
+
+SELECT orders.order_id , orders.order_date
+FROM orders
+LEFT JOIN customers
+ON customers.customer_id = orders.customer_id;
+ 
+ 
+
+CREATE TABLE events(
+ event_type integer not null,
+      value integer not null,
+      time timestamp not null,
+      unique(event_type, time)
+);
+SELECT * FROM events;
+
+-- Familiarising with CTE 
+INSERT INTO events VALUES
+( 2 , 5 ,'2015-05-09 12:42:00'),
+( 4 , -42 ,'2015-05-09 13:19:57'),
+( 2 , 2 ,'2015-05-09 14:48:30'),
+( 2 , 7 ,'2015-05-09 12:54:39'),
+( 3 , 16 ,'2015-05-09 13:19:57'),
+( 3 , 20 ,'2015-05-09 15:01:09');
+
+WITH ranked_events AS(
+ SELECT event_type, value, time,
+  ROW_NUMBER() OVER (PARTITION BY event_type ORDER BY time DESC) AS rn -- ROW_NUM..() window function partitions the data by event_type and orders each partiton by time
+ FROM events
+ )
+ SELECT event_type, MAX(CASE WHEN rn = 1 THEN value END) - MAX(CASE WHEN rn=2 THEN value END) AS value
+ FROM ranked_events
+ WHERE rn <= 2
+ GROUP BY event_type
+ HAVING COUNT(*) >1
+ ORDER BY event_type;
+ 
+ 
+  
 
